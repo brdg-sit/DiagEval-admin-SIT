@@ -12,11 +12,6 @@ const columns = [
   { field: 'col2', headerName: 'Column 2', width: 150 },
 ];
 
-const columns2 = [
-  { field: 'col1', headerName: 'Column 1', width: 150 },
-  { field: 'col2', headerName: 'Column 2', width: 150 },
-];
-
 export default function App() {
   return (
     <div style={{ height: 300, width: '100%' }}>
