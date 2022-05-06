@@ -1,10 +1,10 @@
 import './App.css';
-import DataGrid from './Table/DataTable';
+import DataTable from './Table/DataTable';
 
 function App() {
   return (
     <div className="App">
-      <DataGrid />
+      <DataTable />
     </div>
   );
 }
