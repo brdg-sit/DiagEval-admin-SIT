@@ -4,4 +4,4 @@
 /node_modules
 
 # database
-/database.json
+./database.json

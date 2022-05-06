@@ -1,7 +1,0 @@
-{
-  "host": "sit01.brdg.kr",
-  "user": "sit01",
-  "password": "sit123!@#",
-  "port": "3306",
-  "database": "sit01"
-}
