@@ -1,5 +1,5 @@
 {
-  "name": "DiagEval-admin-SIT",
+  "name": "sit01-admin",
   "version": "1.0.0",
   "scripts": {
     "client": "cd client && npm start",
@@ -10,7 +10,9 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-asyncify": "^1.0.1",
-    "mysql": "^2.18.1"
+    "http-proxy-middleware": "^2.0.6",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.16"
   },
   "devDependencies": {
     "concurrently": "^4.0.1"

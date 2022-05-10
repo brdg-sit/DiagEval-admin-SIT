@@ -8,16 +8,16 @@ const DataTable = () => {
   const [rows, setRows] = useState(tableData);
   const [deletedRows, setDeletedRows] = useState([]);
 
-  const fetchTableData = async () => {
-    await fetch("/api/learningdata")
-      .then((data) => data.json())
-      .then((data) => setTableData(data));
-  };
-
   const fetchTableHeader = async () => {
-    await fetch("/api/tableinfo")
+    await fetch("http://sitapi.brdg.kr/api/sit/tableinfo")
       .then((data) => data.json())
       .then((data) => setTableHeader(data));
+  };
+
+  const fetchTableData = async () => {
+    await fetch("http://sitapi.brdg.kr/api/sit/mldata")
+      .then((data) => data.json())
+      .then((data) => setTableData(data));
   };
 
   useEffect(() => {
