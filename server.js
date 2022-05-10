@@ -26,7 +26,7 @@ connection.connect();
 //   });
 // });
 
-app.get("/api/learningdata", async (req, res) => {
+app.get("http://sitapi.brdg.kr/api/sit/mldata", async (req, res) => {
   await connection.query("SELECT * FROM TBL_ML", (err, rows, fields) => {
     res.send(rows);
   });
