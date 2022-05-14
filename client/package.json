@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:5000/",
+  "proxy": "https://127.0.0.1:5000",
   "name": "sit01-admin",
   "version": "0.1.0",
   "private": true,
@@ -12,10 +12,11 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
+    "global": "^4.4.0",
     "mysql": "^2.18.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

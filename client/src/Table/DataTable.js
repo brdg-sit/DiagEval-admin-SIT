@@ -5,16 +5,19 @@ const DataTable = () => {
   const [tableData, setTableData] = useState([]);
   const [tableHeader, setTableHeader] = useState([]);
 
-  const fetchTableData = async () => {
-    await fetch("http://sitapi.brdg.kr/api/sit/mldata")
-      .then((data) => data.json())
-      .then((data) => setTableData(data));
-  };
+  const [rows, setRows] = useState(tableData);
+  const [deletedRows, setDeletedRows] = useState([]);
 
   const fetchTableHeader = async () => {
     await fetch("http://sitapi.brdg.kr/api/sit/tableinfo")
       .then((data) => data.json())
       .then((data) => setTableHeader(data));
+  };
+
+  const fetchTableData = async () => {
+    await fetch("http://sitapi.brdg.kr/api/sit/mldata")
+      .then((data) => data.json())
+      .then((data) => setTableData(data));
   };
 
   useEffect(() => {
