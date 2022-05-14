@@ -5,9 +5,6 @@ const DataTable = () => {
   const [tableData, setTableData] = useState([]);
   const [tableHeader, setTableHeader] = useState([]);
 
-  const [rows, setRows] = useState(tableData);
-  const [deletedRows, setDeletedRows] = useState([]);
-
   const fetchTableData = async () => {
     await fetch("http://sitapi.brdg.kr/api/sit/mldata")
       .then((data) => data.json())
@@ -21,11 +18,8 @@ const DataTable = () => {
   };
 
   useEffect(() => {
-    fetchTableData();
-  }, []);
-
-  useEffect(() => {
     fetchTableHeader();
+    fetchTableData();
   }, []);
 
   return (
