@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./DataTable.css";
+import { height } from "@mui/system";
 
 const baseuri = "https://sitapi.brdg.kr/api/sit/";
 
-const loadGridCols = [
-  { field: "col1", headerName: "월", width: 150 },
+const typLoadGridCols = [
+  { field: "col1", headerName: "월", width: 50 },
   { field: "col2", headerName: "가스사용량", width: 100, type: "number" },
   { field: "col3", headerName: "전기사용량", width: 100, type: "number" },
   { field: "col4", headerName: "id", width: 50, hideable: false, hide: true },
 ];
 
+const usgLoadGridCols = [
+  { field: "col1", headerName: "월", width: 50 },
+  { field: "col2", headerName: "냉방", width: 100, type: "number" },
+  { field: "col3", headerName: "난방", width: 100, type: "number" },
+  { field: "col4", headerName: "기저", width: 100, type: "number" },
+  { field: "col5", headerName: "급탕/취사", width: 100, type: "number" },
+  { field: "col6", headerName: "id", width: 50, hideable: false, hide: true },
+  { field: "col7", headerName: "id_etr", width: 50, hideable: false, hide: true },
+];
+
 const DataTable = () => {
   const [dataUserEnter, setDataUserEnter] = useState([]);
   const [headerUserEnter, setHeaderUserEnter] = useState([]);
-  const [dataLoad, setDataLoad] = useState([]);
-  const [headerLoad, setHeaderLoad] = useState([]);
+  const [dataTypLoad, setDataTypLoad] = useState([]);
+  const [dataUsgLoad, setDataUsgLoad] = useState([]);
 
   const fetchTableHeader = async () => {
     var url = new URL(baseuri + "tableinfo");
@@ -53,17 +64,14 @@ const DataTable = () => {
     const postData = {
       id: e.row.id,
     };
-    console.log(postData);
 
     try {
-      const res = await fetch(baseuri + "load", {
+      const res = await fetch(baseuri + "typload", {
         method: "POST",
-        mode: 'cors',
+        mode: "cors",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": "token-value",
         },
-        referrerPolicy: 'no-referrer',
         body: JSON.stringify(postData),
       });
       if (!res.ok) {
@@ -91,51 +99,147 @@ const DataTable = () => {
           col4: d.id_etr,
         });
       }
-      setDataLoad(loads.map((row) => ({ ...row })));
+      setDataTypLoad(loads.map((row) => ({ ...row })));
     } catch (err) {
       console.log(err);
     }
+
+
+    try {
+      const res = await fetch(baseuri + "usgload", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+      if (!res.ok) {
+        const message = `An error has occured: ${res.status} - ${res.statusText}`;
+        throw new Error(message);
+      }
+      const data = await res.json();
+      const result = {
+        status: res.status + "-" + res.statusText,
+        headers: {
+          "Content-Type": res.headers.get("Content-Type"),
+          "Content-Length": res.headers.get("Content-Length"),
+        },
+        data: data,
+      };
+      let loads = [];
+      for (let i = 0; i < data.length; i++) {
+        const d = data[i];
+
+        loads.push({
+          id: d.id,
+          col1: d.mnth,
+          col2: d.load_cool,
+          col3: d.load_heat,
+          col4: d.load_baseElec,
+          col5: d.load_baseGas,
+          col6: d.id,
+          col7: d.id_etr,
+        });
+      }
+      setDataUsgLoad(loads.map((row) => ({ ...row })));
+    } catch (err) {
+      console.log(err);
+    }
+
+
   };
 
   return (
-    <>
-      <div className="area_top">
-        <div className="buttonArea">
-          <button className="button">저장</button>
+    <div style={{ margin: "10px" }}>
+      <div className="area_menu">
+        <div
+          style={{
+            height: "40px",
+            display: "inline-block",
+            verticalAlign:"middle"
+          }}
+        >
+          관리자
         </div>
+        <button style={{ height: "30px", float: "right", margin: "5px" }}>
+          삭제
+        </button>
       </div>
-      <div className="area_bottom">
-        <div className="area_grid1">
-          <div className="area_button_grid">
-            <span className="title_grid">제목1</span>
-            <button className="button_inside">저장</button>
+      <div style={{ display: "flex", height: "800px" }}>
+        <div style={{ width: "70%", margin: "0px 20px 0px 0px" }}>
+          <div
+            style={{
+              height: "40px",
+              display: "inline-block",
+            }}
+          >
+            사용자 입력 데이터
           </div>
-          <div className="grid">
+          <button style={{ height: "30px", float: "right", margin: "5px" }}>
+            삭제
+          </button>
+          <button style={{ height: "30px", float: "right", margin: "5px" }}>
+            저장
+          </button>
+          <button style={{ height: "30px", float: "right", margin: "5px" }}>
+            추가
+          </button>
+          <div style={{ height: "100%" }}>
             <DataGrid
               rows={dataUserEnter}
               columns={headerUserEnter}
+              rowHeight={35}
               pageSize={100}
               checkboxSelection
               onRowClick={handleGetLoad}
             />
           </div>
         </div>
-        <div className="area_grid2">
-          <div className="area_button_grid">
-            <span>제목1</span>
-            <button className="button_inside">저장</button>
-          </div>
-          <div className="grid">
-            <DataGrid
-              rows={dataLoad}
-              columns={loadGridCols}
-              pageSize={100}
-              checkboxSelection
-            />
+        <div style={{ flexGrow: "1", height: "auto" }}>
+          <div style={{ height: "auto" }}>
+            <div
+              style={{
+                height: "40px",
+                display: "inline-block",
+              }}
+            >
+              월별 사용량
+            </div>
+            <button style={{ height: "30px", float: "right", margin: "5px" }}>
+              저장
+            </button>
+            <div style={{ height: "370px", margin: "0px 0px 20px 0px"  }}>
+              <DataGrid
+                rows={dataTypLoad}
+                columns={typLoadGridCols}
+                rowHeight={35}
+                pageSize={100}
+              />
+            </div>
+            <div
+              style={{
+                height: "40px",
+                display: "inline-block",
+              }}
+            >
+              월별 분리분산 사용량
+            </div>
+            <button style={{ height: "30px", float: "right", margin: "5px" }}>
+              저장
+            </button>
+            <div style={{ height: "370px" }}>
+              <DataGrid
+                rows={dataUsgLoad}
+                columns={usgLoadGridCols}
+                rowHeight={35}
+                pageSize={100}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
