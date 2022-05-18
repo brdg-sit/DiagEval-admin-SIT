@@ -1,5 +1,5 @@
 {
-  "proxy": "https://127.0.0.1:5000",
+  "proxy": "https://sitapi.brdg.kr",
   "name": "sit01-admin",
   "version": "0.1.0",
   "private": true,

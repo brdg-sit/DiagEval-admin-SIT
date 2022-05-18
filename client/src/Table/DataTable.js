@@ -46,20 +46,24 @@ const DataTable = () => {
   useEffect(() => {
     fetchTableHeader();
     fetchTableUserData();
+    //handleGetLoad();
   }, []);
 
   const handleGetLoad = async (e) => {
     const postData = {
       id: e.row.id,
     };
+    console.log(postData);
 
     try {
       const res = await fetch(baseuri + "load", {
-        method: "post",
+        method: "POST",
+        mode: 'cors',
         headers: {
           "Content-Type": "application/json",
           "x-access-token": "token-value",
         },
+        referrerPolicy: 'no-referrer',
         body: JSON.stringify(postData),
       });
       if (!res.ok) {
