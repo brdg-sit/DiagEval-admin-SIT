@@ -9,20 +9,34 @@ const DataTable = () => {
   const [deletedRows, setDeletedRows] = useState([]);
 
   const fetchTableHeader = async () => {
-    await fetch("http://sitapi.brdg.kr/api/sit/tableinfo")
+    var url = new URL("https://sitapi.brdg.kr/api/sit/tableinfo");
+    var params = { nmTable: "tbl_user_enter" };
+    url.search = new URLSearchParams(params).toString();
+
+    await fetch(url)
       .then((data) => data.json())
       .then((data) => setTableHeader(data));
   };
 
   const fetchTableData = async () => {
-    await fetch("http://sitapi.brdg.kr/api/sit/mldata")
+    var url = new URL("https://sitapi.brdg.kr/api/sit/mldata");
+
+    await fetch(url)
+      .then((data) => data.json())
+      .then((data) => setTableData(data));
+  };
+
+  const fetchTableUserData = async () => {
+    var url = new URL("https://sitapi.brdg.kr/api/sit/userdata");
+
+    await fetch(url)
       .then((data) => data.json())
       .then((data) => setTableData(data));
   };
 
   useEffect(() => {
     fetchTableHeader();
-    fetchTableData();
+    fetchTableUserData();
   }, []);
 
   return (
