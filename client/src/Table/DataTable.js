@@ -462,7 +462,7 @@ const DataTable = () => {
           관리자
         </div>
         <button style={{ height: "30px", float: "right", margin: "5px" }}>
-          삭제
+          재 학습
         </button>
       </div>
       <div style={{ display: "flex", height: "800px" }}>
@@ -477,19 +477,19 @@ const DataTable = () => {
           </div>
           <button
             style={{ height: "30px", float: "right", margin: "5px" }}
-            onClick={handleDelete}
+            //onClick={handleDelete}
           >
             삭제
           </button>
           <button
             style={{ height: "30px", float: "right", margin: "5px" }}
-            onClick={handleSave}
+            //onClick={handleSave}
           >
             저장
           </button>
           <button
             style={{ height: "30px", float: "right", margin: "5px" }}
-            onClick={handleAddRow}
+            //onClick={handleAddRow}
           >
             추가
           </button>
@@ -499,8 +499,9 @@ const DataTable = () => {
               columns={headerUserEnter}
               rowHeight={35}
               pageSize={100}
-              checkboxSelection
-              //onRowClick={handleGetLoad}
+              rowsPerPageOptions={[100]}
+              //checkboxSelection
+              onRowClick={handleGetLoad}
               //editMode="row"
               //experimentalFeatures={{ newEditingApi: true }}
               onSelectionModelChange={(newSelectionModel) => {
@@ -549,6 +550,7 @@ const DataTable = () => {
                 columns={typLoadGridCols}
                 rowHeight={35}
                 pageSize={100}
+                rowsPerPageOptions={[100]}
               />
             </div>
             <div
@@ -568,6 +570,7 @@ const DataTable = () => {
                 columns={usgLoadGridCols}
                 rowHeight={35}
                 pageSize={100}
+                rowsPerPageOptions={[100]}
               />
             </div>
           </div>
