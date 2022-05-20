@@ -7,6 +7,66 @@ import Alert from "@mui/material/Alert";
 
 const baseuri = "https://sitapi.brdg.kr/api/sit/";
 
+const rows = [
+  {
+    id: 1,
+    expense: "Light bill",
+    price: 0,
+    dueAt: new Date(2021, 6, 8),
+    isPaid: false,
+    paymentMethod: "",
+  },
+  {
+    id: 2,
+    expense: "Rent",
+    price: 0,
+    dueAt: new Date(2021, 7, 1),
+    isPaid: false,
+    paymentMethod: "",
+  },
+  {
+    id: 3,
+    expense: "Car insurance",
+    price: 0,
+    dueAt: new Date(2021, 7, 4),
+    isPaid: true,
+    paymentMethod: "Credit card",
+  },
+];
+
+const columns = [
+  { field: "expense", headerName: "Expense", width: 160, editable: true },
+  {
+    field: "price",
+    headerName: "Price",
+    type: "number",
+    width: 120,
+    editable: true,
+  },
+  {
+    field: "dueAt",
+    headerName: "Due at",
+    type: "date",
+    width: 120,
+    editable: true,
+  },
+  {
+    field: "isPaid",
+    headerName: "Is paid?",
+    type: "boolean",
+    width: 140,
+    editable: true,
+  },
+  {
+    field: "paymentMethod",
+    headerName: "Payment method",
+    type: "singleSelect",
+    valueOptions: ["Credit card", "Wire transfer", "Cash"],
+    width: 160,
+    editable: true,
+  },
+];
+
 const typLoadGridCols = [
   { field: "col1", headerName: "월", width: 50 },
   {
@@ -68,12 +128,30 @@ const DataTable = () => {
       .then((data) => data.json())
       .then((data) => setHeaderUserEnter(data));
 
-    console.log(headerUserEnter);
+    // console.log(headers);
 
-    setHeaderUserEnter((header) => [
-      ...header,
-      { field: "edited", headerName: "edited" },
-    ]);
+    // let newHeaders = [];
+    // for (let i = 0; i < headers.length; i++) {
+    //   const header = headers[i];
+    //   if (header.field === "cd_north_axis") {
+    //     header.type = "singleSelect";
+    //     header.valueOptions = ["Credit card", "Wire transfer", "Cash"];
+    //   }
+    //   newHeaders.push(header);
+    // }
+
+    // console.log(newHeaders);
+
+    // setHeaderUserEnter(newHeaders);
+
+    //setHeaderUserEnter(headers)
+
+    // console.log(headerUserEnter);
+
+    // setHeaderUserEnter((header) => [
+    //   ...header,
+    //   { field: "edited", headerName: "edited" },
+    // ]);
   };
 
   const fetchTableData = async () => {
@@ -92,7 +170,7 @@ const DataTable = () => {
       .then((data) => setDataUserEnter(data));
   };
 
-  const fetchGetLoad = async (e) => {
+  const handleGetLoad = async (e) => {
     const postData = {
       id: e.row.id,
     };
@@ -179,7 +257,7 @@ const DataTable = () => {
     }
   };
 
-  const fetchDelete = async () => {
+  const handleDelete = async () => {
     if (selectionModel.length === 0) {
       return;
     }
@@ -275,89 +353,101 @@ const DataTable = () => {
     console.log("const handleAddRow = () => {");
     //console.log(headerUserEnter);
     //console.log(dataUserEnter);
-    setDataUserEnter((prevRows) => [...prevRows, createRow()]);
+    //setDataUserEnter([createRow()]);
     //console.log(dataUserEnter);
+
+    console.log(dataUserEnter);
+
+    // const headers = []
+    // for (let i = 0; i < headerUserEnter.length; i++) {
+    //   const element = headerUserEnter[i];
+
+    //   if (element.field === "cd_north_axis"){
+    //     element.type = "singleSelect"
+    //     element.valueOptions = ["a", "b", "c"]
+    //     console.log(element);
+    //   }
+    //   headers.push(element)
+    // }
+
+    // setHeaderUserEnter(headers);
+
+    // setHeaderUserEnter(
+    //   (headerUserEnter.filter(
+    //     (column) => column.field === "cd_north_axis"
+    //   ).type = "singleSelect")
+    // );
+    // setHeaderUserEnter(
+    //   (headerUserEnter.filter(
+    //     (column) => column.field === "cd_north_axis"
+    //   ).valueOptions = ["a", "b", "c"])
+    // );
+
+    // for (let i = 0; i < headerUserEnter.length; i++) {
+    //   const col = headerUserEnter[i];
+
+    //   if (col.field === "cd_north_axis") {
+    //     col.type = "singleSelect";
+    //     col.valueOptions = ["United Kingdom", "Spain", "Brazil"];
+    //   }
+    // }
+    // console.log(headerUserEnter);
     console.log("const handleAddRow = () => { end");
   };
 
-  const handleSave = () => {
-    console.log("const handleSave = () => {");
-    console.log(headerUserEnter);
-    console.log(dataUserEnter);
-    console.log("const handleSave = () => { end");
-  };
-
-  const handleEditStart = async (params, event) => {
+  const handleEditStart = (params, event) => {
     console.log("const handleEditStart = () => { start");
+
+    // for (let i = 0; i < params.columns.length; i++) {
+    //   const col = params.columns[i];
+
+    //   if (col.field === "cd_north_axis") {
+    //     col.type = "singleSelect";
+    //     col.valueOptions = ["United Kingdom", "Spain", "Brazil"];
+    //   }
+    // }
+    console.log(params.columns);
     console.log("const handleEditStart = () => { end");
   };
 
-  const handleEditStop = async (params, event) => {
+  const handleEditStop = (params, event) => {
     console.log("const handleEditStop = () => { start");
     console.log("const handleEditStop = () => { end");
   };
 
-  const useFakeMutation = (row) => {
-    return React.useCallback(
-      (row) =>
-        new Promise((resolve, reject) =>
-          setTimeout(() => {
-            if (row.id === -1) {
-              reject(
-                new Error("Error while saving user: name can't be empty.")
-              );
-            } else {
-              let postData = row;
-
-              console.log(row);
-
-              try {
-                const res = fetch(baseuri + "save", {
-                  method: "POST",
-                  mode: "cors",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(postData),
-                });
-                if (!res.ok) {
-                  const message = `An error has occured: ${res.status} - ${res.statusText}`;
-                  throw new Error(message);
-                }
-                const data = res.json();
-                const result = {
-                  status: res.status + "-" + res.statusText,
-                  headers: {
-                    "Content-Type": res.headers.get("Content-Type"),
-                    "Content-Length": res.headers.get("Content-Length"),
-                  },
-                  data: data,
-                };
-                console.log(data);
-              } catch (err) {
-                console.log(err);
-              }
-
-              resolve({ ...row });
-            }
-          }, 200)
-        ),
-      []
-    );
+  const useFetchSave = () => {
+    return React.useCallback((user) => {
+      console.log(user);
+      let postData = user;
+      return fetch(baseuri + "save", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      }).then((result) => {
+        console.log(result);
+        return user;
+      });
+    }, []);
   };
 
-  const fetchSave = useFakeMutation();
+  const handleSave = useFetchSave();
 
   const processRowUpdate = React.useCallback(
     async (newRow) => {
       // Make the HTTP request to save in the backend
-      const response = await fetchSave(newRow);
-      //console.log(response)
+      const response = await handleSave(newRow);
       setSnackbar({ children: "User successfully saved", severity: "success" });
       return response;
     },
-    [fetchSave]
+    [handleSave]
   );
+
+  const handleProcessRowUpdateError = React.useCallback((error) => {
+    setSnackbar({ children: error.message, severity: "error" });
+  }, []);
 
   return (
     <div style={{ margin: "10px" }}>
@@ -387,7 +477,7 @@ const DataTable = () => {
           </div>
           <button
             style={{ height: "30px", float: "right", margin: "5px" }}
-            onClick={fetchDelete}
+            onClick={handleDelete}
           >
             삭제
           </button>
@@ -409,21 +499,23 @@ const DataTable = () => {
               columns={headerUserEnter}
               rowHeight={35}
               pageSize={100}
-              onRowClick={fetchGetLoad}
-              editMode="row"
-              experimentalFeatures={{ newEditingApi: true }}
+              checkboxSelection
+              //onRowClick={handleGetLoad}
+              //editMode="row"
+              //experimentalFeatures={{ newEditingApi: true }}
               onSelectionModelChange={(newSelectionModel) => {
                 setSelectionModel(newSelectionModel);
               }}
-              onRowEditStart={(params, event) => {
-                handleEditStart(params, event);
-                console.log("onRowEditStart");
-              }}
-              onRowEditStop={(params, event) => {
-                handleEditStop(params, event);
-                console.log("onRowEditStop");
-              }}
-              processRowUpdate={processRowUpdate}
+              // onRowEditStart={(params, event) => {
+              //   handleEditStart(params, event);
+              //   console.log("onRowEditStart");
+              // }}
+              // onRowEditStop={(params, event) => {
+              //   handleEditStop(params, event);
+              //   console.log("onRowEditStop");
+              // }}
+              //processRowUpdate={processRowUpdate}
+              // onProcessRowUpdateError={handleProcessRowUpdateError}
               selectionModel={selectionModel}
             />
             {!!snackbar && (
