@@ -68,31 +68,82 @@ const columns = [
 ];
 
 const typLoadGridCols = [
-  { field: "col1", headerName: "월", width: 50 },
+  { field: "mnth", headerName: "월", width: 50 },
   {
-    field: "col2",
+    field: "load_gas",
     headerName: "가스사용량",
     width: 100,
     type: "number",
-    editable: true,
   },
   {
-    field: "col3",
+    field: "unit_gas",
+    headerName: "단위",
+    width: 50,
+    type: "string",
+  },
+  {
+    field: "load_elec",
     headerName: "전기사용량",
     width: 100,
     type: "number",
-    editable: true,
   },
-  { field: "col4", headerName: "id", width: 50, hideable: false, hide: true },
+  {
+    field: "unit_elec",
+    headerName: "단위",
+    width: 50,
+    type: "string",
+  },
+  {
+    field: "id",
+    headerName: "id",
+    width: 50,
+    hideable: false,
+    hide: true,
+  },
+  {
+    field: "id_etr",
+    headerName: "id_etr",
+    width: 50,
+    hideable: false,
+    hide: true,
+  },
 ];
 
+// loads.push({
+//   id: d.id,
+//   mnth: d.mnth,
+//   load_cool: d.load_cool,
+//   unit_cool: d.unit_cool,
+//   load_heat: d.load_heat,
+//   unit_heat: d.unit_heat,
+//   load_baseElec: d.load_baseElec,
+//   unit_baseElec: d.unit_baseElec,
+//   load_baseGas: d.load_baseGas,
+//   unit_baseGas: d.unit_baseGas,
+//   id_etr: d.id_etr,
+// });
+
 const usgLoadGridCols = [
-  { field: "col1", headerName: "월", width: 50 },
-  { field: "col2", headerName: "냉방", width: 100, type: "number" },
-  { field: "col3", headerName: "난방", width: 100, type: "number" },
-  { field: "col4", headerName: "기저", width: 100, type: "number" },
-  { field: "col5", headerName: "급탕/취사", width: 100, type: "number" },
-  { field: "col6", headerName: "id", width: 50, hideable: false, hide: true },
+  { field: "mnth", headerName: "월", width: 50 },
+  { field: "load_cool", headerName: "냉방", width: 100, type: "number" },
+  { field: "unit_cool", headerName: "단위", width: 50, type: "string" },
+  { field: "load_heat", headerName: "난방", width: 100, type: "number" },
+  { field: "unit_heat", headerName: "단위", width: 50, type: "string" },
+  { field: "load_baseElec", headerName: "기저", width: 100, type: "number" },
+  { field: "unit_baseElec", headerName: "단위", width: 50, type: "string" },
+  {
+    field: "load_baseGas",
+    headerName: "급탕/취사",
+    width: 100,
+    type: "number",
+  },
+  {
+    field: "unit_baseGas",
+    headerName: "단위",
+    width: 50,
+    type: "string",
+  },
+  { field: "id", headerName: "id", width: 50, hideable: false, hide: true },
   {
     field: "col7",
     headerName: "id_etr",
@@ -203,10 +254,12 @@ const DataTable = () => {
 
         loads.push({
           id: d.id,
-          col1: d.mnth,
-          col2: d.load_gas,
-          col3: d.load_elec,
-          col4: d.id_etr,
+          mnth: d.mnth,
+          load_gas: d.load_gas,
+          unit_gas: d.unit_gas,
+          load_elec: d.load_elec,
+          unit_elec: d.unit_elec,
+          id_etr: d.id_etr,
         });
       }
       setDataTypLoad(loads.map((row) => ({ ...row })));
@@ -242,13 +295,16 @@ const DataTable = () => {
 
         loads.push({
           id: d.id,
-          col1: d.mnth,
-          col2: d.load_cool,
-          col3: d.load_heat,
-          col4: d.load_baseElec,
-          col5: d.load_baseGas,
-          col6: d.id,
-          col7: d.id_etr,
+          mnth: d.mnth,
+          load_cool: d.load_cool,
+          unit_cool: d.unit_cool,
+          load_heat: d.load_heat,
+          unit_heat: d.unit_heat,
+          load_baseElec: d.load_baseElec,
+          unit_baseElec: d.unit_baseElec,
+          load_baseGas: d.load_baseGas,
+          unit_baseGas: d.unit_baseGas,
+          id_etr: d.id_etr,
         });
       }
       setDataUsgLoad(loads.map((row) => ({ ...row })));
