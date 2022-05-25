@@ -556,7 +556,7 @@ const DataTable = () => {
               rowHeight={35}
               pageSize={100}
               rowsPerPageOptions={[100]}
-              //checkboxSelection
+              checkboxSelection
               onRowClick={handleGetLoad}
               //editMode="row"
               //experimentalFeatures={{ newEditingApi: true }}
