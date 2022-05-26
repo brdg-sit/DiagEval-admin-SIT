@@ -533,7 +533,7 @@ const DataTable = () => {
           </div>
           <button
             style={{ height: "30px", float: "right", margin: "5px" }}
-            //onClick={handleDelete}
+            onClick={handleDelete}
           >
             삭제
           </button>
