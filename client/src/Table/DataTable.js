@@ -155,8 +155,10 @@ const usgLoadGridCols = [
 
 const DataTable = () => {
   const [dataUserEnter, setDataUserEnter] = useState([]);
+  const [dataML, setDataML] = useState([]);
   const [editUserEnter, setEditUserEnter] = useState([]);
   const [headerUserEnter, setHeaderUserEnter] = useState([]);
+  const [headerMLData, setHeaderMLData] = useState([]);
   const [dataTypLoad, setDataTypLoad] = useState([]);
   const [dataUsgLoad, setDataUsgLoad] = useState([]);
   const [selectionModel, setSelectionModel] = useState([]);
@@ -166,43 +168,29 @@ const DataTable = () => {
 
   useEffect(() => {
     fetchTableHeader();
+    fetchTableHeaderML();
     fetchTableUserData();
     //handleGetLoad();
   }, []);
 
-  const fetchTableHeader = async () => {
+  const fetchTableHeader = (name) => {
     var url = new URL(baseuri + "tableinfo");
     var params = { nmTable: "tbl_user_enter" };
     url.search = new URLSearchParams(params).toString();
 
-    await fetch(url)
+    fetch(url)
       .then((data) => data.json())
       .then((data) => setHeaderUserEnter(data));
+  };
 
-    // console.log(headers);
+  const fetchTableHeaderML = (name) => {
+    var url = new URL(baseuri + "tableinfo");
+    var params = { nmTable: "tbl_ml" };
+    url.search = new URLSearchParams(params).toString();
 
-    // let newHeaders = [];
-    // for (let i = 0; i < headers.length; i++) {
-    //   const header = headers[i];
-    //   if (header.field === "cd_north_axis") {
-    //     header.type = "singleSelect";
-    //     header.valueOptions = ["Credit card", "Wire transfer", "Cash"];
-    //   }
-    //   newHeaders.push(header);
-    // }
-
-    // console.log(newHeaders);
-
-    // setHeaderUserEnter(newHeaders);
-
-    //setHeaderUserEnter(headers)
-
-    // console.log(headerUserEnter);
-
-    // setHeaderUserEnter((header) => [
-    //   ...header,
-    //   { field: "edited", headerName: "edited" },
-    // ]);
+    fetch(url)
+      .then((data) => data.json())
+      .then((data) => setHeaderMLData(data));
   };
 
   const fetchTableData = async () => {
@@ -213,18 +201,31 @@ const DataTable = () => {
       .then((data) => setDataUserEnter(data));
   };
 
-  const fetchTableUserData = async () => {
+  const fetchTableUserData = () => {
     var url = new URL(baseuri + "userdata");
+
+    fetch(url)
+      .then((data) => data.json())
+      .then((data) => setDataUserEnter(data));
+  };
+
+  const fetchTableMLData = async (id) => {
+    var url = new URL(baseuri + "mldata2");
+    var params = { id_etr: id };
+    url.search = new URLSearchParams(params).toString();
 
     await fetch(url)
       .then((data) => data.json())
-      .then((data) => setDataUserEnter(data));
+      .then((data) => setDataML(data));
   };
 
   const handleGetLoad = async (e) => {
     const postData = {
       id: e.row.id,
     };
+
+    fetchTableMLData(e.row.id);
+    console.log(e.row.id)
 
     try {
       const res = await fetch(baseuri + "typload", {
@@ -549,7 +550,7 @@ const DataTable = () => {
           >
             추가
           </button>
-          <div style={{ height: "100%" }}>
+          <div style={{ height: "540px", margin: "0px 0px 20px 0px" }}>
             <DataGrid
               rows={dataUserEnter}
               columns={headerUserEnter}
@@ -586,9 +587,31 @@ const DataTable = () => {
               </Snackbar>
             )}
           </div>
+
+          <div style={{ height: "200px", margin: "0px 0px 20px 0px" }}>
+            {" "}
+            <div
+              style={{
+                height: "40px",
+                display: "inline-block",
+              }}
+            >
+              ML 데이터
+            </div>
+            <DataGrid
+              rows={dataML}
+              columns={headerMLData}
+              rowHeight={35}
+              pageSize={100}
+              rowsPerPageOptions={[100]}
+            />
+          </div>
         </div>
-        <div style={{ flexGrow: "1", height: "auto" }}>
+
+        <div style={{ flexGrow: "1", height: "auto" }}>          
+
           <div style={{ height: "auto" }}>
+
             <div
               style={{
                 height: "40px",
@@ -600,6 +623,7 @@ const DataTable = () => {
             <button style={{ height: "30px", float: "right", margin: "5px" }}>
               저장
             </button>
+
             <div style={{ height: "370px", margin: "0px 0px 20px 0px" }}>
               <DataGrid
                 rows={dataTypLoad}
@@ -629,8 +653,14 @@ const DataTable = () => {
                 rowsPerPageOptions={[100]}
               />
             </div>
+
+
+
           </div>
+          
         </div>
+
+
       </div>
     </div>
   );
